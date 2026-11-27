@@ -1,19 +1,18 @@
-// Exhibition copy and contacts come from the supplied description and contact PDFs.
-// Vite also inserts the title and description into index.html before React runs.
 const title = 'Loose Ends';
-const dates = '27 November 2026';
+const dates = '27–29 November 2026';
 const location = 'Athens, Greece';
 const artist = {
   name: 'Stelios Chatzivasileiou',
-  nameGR: 'Στέλιος Χατζηβασιλείου',
   email: 'stelioschatzivasileiou@gmail.com',
   phone: '+30 693 9953058',
   phoneHref: '+306939953058',
+  instagram: { handle: '@ste_lis_', url: 'https://www.instagram.com/ste_lis_/' },
 };
 const gallery = {
   name: 'Imposter Studio',
   email: 'studio.imposter@gmail.com',
   logo: 'logos/imposter-studio-logo.png',
+  instagram: { handle: '@studio.imposter', url: 'https://www.instagram.com/studio.imposter/' },
 };
 
 export const exhibition = {
@@ -37,9 +36,6 @@ export const exhibition = {
   ],
 };
 
-// CSV order and Identification names are preserved. Photos are matched by filename.
-// Dimensions and prices come from the CSV; artwork years were not supplied.
-// Image paths are relative to public/. Subtitle, price and year are optional.
 export const artworks = [
   { id: 'big-sq', image: 'artworks/big-sq.jpg', alt: 'Abstract composition of blue, green and red geometric forms with white linework', title: 'Big Sq', medium: 'Acrylic and dry pastel on canvas', dimensions: '100 × 100 cm', price: '€870', width: 2492, height: 2519 },
   { id: 'big-hor', image: 'artworks/big-hor.jpg', alt: 'Elongated purple geometric structure on a red, blue and grey background', title: 'Big Hor', medium: 'Acrylic and dry pastel on canvas', dimensions: '100 × 50 cm', price: '€650', width: 2523, height: 1257 },

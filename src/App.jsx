@@ -14,13 +14,15 @@ function ExhibitionHeading({ titleId }) {
 }
 
 function Contact() {
-  const { name, nameGR, email, phone, phoneHref } = exhibition.artist;
+  const { name, email, phone, phoneHref, instagram } = exhibition.artist;
   return (
     <section className="contact" aria-label="Get in touch">
       <h2>Get in touch</h2>
       <address>
-        <p className="contact-name">{name}</p>
-        {nameGR && <p className="contact-native-name" lang="el">{nameGR}</p>}
+        <div className="contact-identity">
+          <p className="contact-name">{name}</p>
+          <a href={instagram.url} target="_blank" rel="noopener noreferrer">{instagram.handle}</a>
+        </div>
         <div className="contact-links">
           <a href={`mailto:${email}`}>{email}</a>
           {phone && <a href={`tel:${phoneHref}`}>{phone}</a>}
@@ -38,8 +40,8 @@ function SiteFooter({ inert = false }) {
       <p className="footer-copyright">© {copyrightYear} {gallery.name}</p>
       <img src={asset(gallery.logo)} alt={gallery.name} width="567" height="567" loading="lazy" />
       <address className="footer-contact">
-        <p>Contact {gallery.name}</p>
         <a href={`mailto:${gallery.email}`}>{mailbox}<wbr />@{domain}</a>
+        <a href={gallery.instagram.url} target="_blank" rel="noopener noreferrer">{gallery.instagram.handle}</a>
       </address>
     </footer>
   );
@@ -56,23 +58,28 @@ function Artwork({ work, index }) {
         {work.subtitle && <p className="artwork-subtitle">{work.subtitle}</p>}
         <dl className="artwork-meta">
           <div><dt>Medium</dt><dd>{work.medium}</dd></div>
-          <div><dt>Dimensions (cm)</dt><dd>{work.dimensions.replace(/\s*cm\s*$/i, '')}</dd></div>
+          <div><dt>Dimensions</dt><dd>{work.dimensions}</dd></div>
           {work.year && <div><dt>Year</dt><dd>{work.year}</dd></div>}
-          {work.price && <div className="artwork-price"><dt>Price</dt><dd>{work.price.replace('€', '').trim()}</dd></div>}
+          {work.price && <div className="artwork-price"><dt>Price</dt><dd>{work.price}</dd></div>}
         </dl>
       </div>
     </article>
   );
 }
 
-function LanguageSection({ label, lang, paragraphs }) {
+function ExhibitionDescription() {
+  const [language, setLanguage] = useState('el');
+  const paragraphs = language === 'el' ? exhibition.descriptionGR : exhibition.descriptionEN;
   return (
-    <section className="language-section" lang={lang} aria-label={lang === 'el' ? 'Ελληνικά' : 'English'}>
-      <span className="language-label" aria-hidden="true">{label} —</span>
-      <div className="language-copy">
-        {paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+    <div className="bilingual-copy">
+      <div className="language-toggle" role="group" aria-label="Description language">
+        <button type="button" lang="el" aria-label="GR — Ελληνικά" aria-pressed={language === 'el'} aria-controls="exhibition-description" onClick={() => setLanguage('el')}>GR</button>
+        <button type="button" lang="en" aria-label="EN — English" aria-pressed={language === 'en'} aria-controls="exhibition-description" onClick={() => setLanguage('en')}>EN</button>
       </div>
-    </section>
+      <section id="exhibition-description" className="language-copy" lang={language} aria-label={language === 'el' ? 'Ελληνικά' : 'English'}>
+        {paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+      </section>
+    </div>
   );
 }
 
@@ -81,10 +88,7 @@ function InfoPanel({ open, panelRef }) {
     <div id="exhibition-info" className={`info-overlay${open ? ' is-open' : ''}`} ref={panelRef} inert={!open} aria-hidden={!open}>
       <div className="content-width page-content info-content">
         <ExhibitionHeading titleId="info-title" />
-        <div className="bilingual-copy">
-          <LanguageSection label="GR" lang="el" paragraphs={exhibition.descriptionGR} />
-          <LanguageSection label="EN" lang="en" paragraphs={exhibition.descriptionEN} />
-        </div>
+        <ExhibitionDescription />
         <Contact />
       </div>
       <SiteFooter />
@@ -100,7 +104,6 @@ export default function App() {
   const returnToTop = useRef(false);
   const previouslyOpen = useRef(false);
 
-  // Prevent background scroll without moving the page; the overlay scrolls independently.
   useLayoutEffect(() => {
     if (!open) return;
     const root = document.documentElement;
@@ -119,7 +122,6 @@ export default function App() {
     previouslyOpen.current = open;
   }, [open]);
 
-  // Escape closes the overlay, and Tab stays inside its controls while open.
   useEffect(() => {
     if (!open) return;
     function onKeyDown(event) {

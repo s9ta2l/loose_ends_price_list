@@ -7,42 +7,47 @@ function ExhibitionHeading({ titleId }) {
   return (
     <div className="exhibition-heading">
       <h1 id={titleId}>{exhibition.title}</h1>
-      <p className="exhibition-subtitle">{exhibition.artist.name}</p>
-      <p className="exhibition-dates">{exhibition.dates} · {exhibition.location}</p>
+      <p className="exhibition-subtitle">by {exhibition.artist.name}</p>
+      <p className="exhibition-dates">{exhibition.dates} · {exhibition.gallery.name} · {exhibition.location}</p>
     </div>
   );
 }
 
 function Contact() {
-  const { name, email, phone, phoneHref, instagram } = exhibition.artist;
+  const { artist, gallery } = exhibition;
+  const [mailbox, domain] = gallery.email.split('@');
   return (
     <section className="contact" aria-label="Get in touch">
       <h2>Get in touch</h2>
-      <address>
-        <div className="contact-identity">
-          <p className="contact-name">{name}</p>
-          <a href={instagram.url} target="_blank" rel="noopener noreferrer">{instagram.handle}</a>
-        </div>
-        <div className="contact-links">
-          <a href={`mailto:${email}`}>{email}</a>
-          {phone && <a href={`tel:${phoneHref}`}>{phone}</a>}
-        </div>
-      </address>
+      <div className="contact-columns">
+        <address className="artist-contact">
+          <p className="contact-name">{artist.name}</p>
+          <div className="contact-links">
+            <a href={artist.instagram.url} target="_blank" rel="noopener noreferrer">{artist.instagram.handle}</a>
+            <a href={`mailto:${artist.email}`}>{artist.email}</a>
+            {artist.phone && <a href={`tel:${artist.phoneHref}`}>{artist.phone}</a>}
+          </div>
+        </address>
+        <address className="studio-contact">
+          <p className="contact-name">{gallery.name}</p>
+          <div className="contact-links">
+            <a href={gallery.instagram.url} target="_blank" rel="noopener noreferrer">{gallery.instagram.handle}</a>
+            <a href={`mailto:${gallery.email}`}>{mailbox}<wbr />@{domain}</a>
+          </div>
+        </address>
+      </div>
     </section>
   );
 }
 
 function SiteFooter({ inert = false }) {
   const { gallery, copyrightYear } = exhibition;
-  const [mailbox, domain] = gallery.email.split('@');
   return (
     <footer className="site-footer content-width" inert={inert}>
       <p className="footer-copyright">© {copyrightYear} {gallery.name}</p>
-      <img src={asset(gallery.logo)} alt={gallery.name} width="567" height="567" loading="lazy" />
-      <address className="footer-contact">
-        <a href={`mailto:${gallery.email}`}>{mailbox}<wbr />@{domain}</a>
-        <a href={gallery.instagram.url} target="_blank" rel="noopener noreferrer">{gallery.instagram.handle}</a>
-      </address>
+      <a className="footer-logo" href={gallery.instagram.url} target="_blank" rel="noopener noreferrer" aria-label={`${gallery.name} on Instagram`}>
+        <img src={asset(gallery.logo)} alt={gallery.name} width="567" height="567" loading="lazy" />
+      </a>
     </footer>
   );
 }

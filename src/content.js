@@ -19,7 +19,6 @@ export const exhibition = {
   title,
   dates,
   location,
-  seoDescription: `${title}, ${dates}, ${location}. Paintings and collages by ${artist.name} at ${gallery.name}, exploring space and perception. Browse the works and prices.`,
   logo: 'logos/loose-ends-logo.png',
   artist,
   gallery,

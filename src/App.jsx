@@ -73,13 +73,13 @@ function Artwork({ work, index }) {
 }
 
 function ExhibitionDescription() {
-  const [language, setLanguage] = useState('el');
+  const [language, setLanguage] = useState('en');
   const paragraphs = language === 'el' ? exhibition.descriptionGR : exhibition.descriptionEN;
   return (
     <div className="bilingual-copy">
       <div className="language-toggle" role="group" aria-label="Description language">
-        <button type="button" lang="el" aria-label="GR — Ελληνικά" aria-pressed={language === 'el'} aria-controls="exhibition-description" onClick={() => setLanguage('el')}>GR</button>
         <button type="button" lang="en" aria-label="EN — English" aria-pressed={language === 'en'} aria-controls="exhibition-description" onClick={() => setLanguage('en')}>EN</button>
+        <button type="button" lang="el" aria-label="GR — Ελληνικά" aria-pressed={language === 'el'} aria-controls="exhibition-description" onClick={() => setLanguage('el')}>GR</button>
       </div>
       <section id="exhibition-description" className="language-copy" lang={language} aria-label={language === 'el' ? 'Ελληνικά' : 'English'}>
         {paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}

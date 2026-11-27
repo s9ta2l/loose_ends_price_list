@@ -4,15 +4,29 @@ import { exhibition, artworks } from './content.js';
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 function Contact() {
-  const { text, email, phone, phoneHref } = exhibition.contact;
+  const contacts = [
+    { label: 'Artist', ...exhibition.artist },
+    { label: 'Gallery & organiser', ...exhibition.gallery },
+  ];
   return (
-    <address className="contact">
-      <p>{text}</p>
-      <div className="contact-links">
-        <a href={`mailto:${email}`}>{email}</a>
-        <a href={`tel:${phoneHref}`}>{phone}</a>
+    <section className="contact" aria-label="Contact details">
+      <p>{exhibition.contactIntro}</p>
+      <div className="contact-grid">
+        {contacts.map(({ label, name, nameGR, email, phone, phoneHref }) => (
+          <div className="contact-person" key={label}>
+            <h2 className="contact-label">{label}</h2>
+            <address>
+              <p className="contact-name">{name}</p>
+              {nameGR && <p className="contact-native-name" lang="el">{nameGR}</p>}
+              <div className="contact-links">
+                <a href={`mailto:${email}`}>{email}</a>
+                {phone && <a href={`tel:${phoneHref}`}>{phone}</a>}
+              </div>
+            </address>
+          </div>
+        ))}
       </div>
-    </address>
+    </section>
   );
 }
 
@@ -20,7 +34,7 @@ function Artwork({ work, index }) {
   return (
     <article className="artwork" aria-labelledby={`${work.id}-title`}>
       <div className="artwork-image">
-        <img src={asset(work.image)} alt={work.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+        <img src={asset(work.image)} alt={work.alt} width={work.width} height={work.height} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
       </div>
       <div className="artwork-details">
         <h2 id={`${work.id}-title`}>{work.title}</h2>
@@ -28,7 +42,7 @@ function Artwork({ work, index }) {
         <dl className="artwork-meta">
           <div><dt>Medium</dt><dd>{work.medium}</dd></div>
           <div><dt>Dimensions</dt><dd>{work.dimensions}</dd></div>
-          <div><dt>Year</dt><dd>{work.year}</dd></div>
+          {work.year && <div><dt>Year</dt><dd>{work.year}</dd></div>}
           {work.price && <div className="artwork-price"><dt>Price</dt><dd>{work.price}</dd></div>}
         </dl>
       </div>
@@ -52,7 +66,8 @@ function InfoPanel({ open, panelRef }) {
     <div id="exhibition-info" className={`info-overlay${open ? ' is-open' : ''}`} ref={panelRef} inert={!open} aria-hidden={!open}>
       <div className="content-width info-content">
         <h1 id="info-title">{exhibition.title}</h1>
-        <p className="info-dates">{exhibition.dates}</p>
+        <p className="info-dates">{exhibition.dates} · {exhibition.location}</p>
+        <p className="info-artist">{exhibition.artist.name}</p>
         <div className="bilingual-copy">
           <LanguageSection label="GR" lang="el" paragraphs={exhibition.descriptionGR} />
           <LanguageSection label="EN" lang="en" paragraphs={exhibition.descriptionEN} />
@@ -129,7 +144,7 @@ export default function App() {
         <header className={`site-header${open ? ' info-active' : ''}`}>
           <nav className="nav-inner" aria-label="Main navigation">
             <a className="brand" href="#top" onClick={goToTop} aria-label={`${exhibition.title} — return to top`}>
-              <img src={asset(exhibition.logo)} alt={exhibition.title} />
+              <img src={asset(exhibition.logo)} alt={exhibition.title} width="2141" height="2141" />
             </a>
             <button type="button" className={`info-toggle${open ? ' is-open' : ''}`} aria-label={open ? 'Close exhibition information' : 'Open exhibition information'} aria-expanded={open} aria-controls="exhibition-info" onClick={() => setOpen(v => !v)} ref={toggleRef}>
               <span className="toggle-icon" aria-hidden="true"><span className="icon-ring" /><span className="icon-dot" /><span className="icon-stem" /><span className="icon-cross" /></span>
@@ -139,15 +154,15 @@ export default function App() {
         <InfoPanel open={open} panelRef={panelRef} />
       </div>
       <main id="top" className="content-width gallery" inert={open}>
-        <div className="gallery-heading"><h1>{exhibition.title}</h1><p>List of works</p></div>
+        <div className="gallery-heading"><h1>{exhibition.title}</h1><p>{exhibition.artist.name} — List of works</p></div>
         <div className="artwork-list">
           {artworks.map((work, index) => <Artwork key={work.id} work={work} index={index} />)}
         </div>
         <Contact />
       </main>
       <footer className="site-footer content-width" inert={open}>
-        <img src={asset(exhibition.venueLogo)} alt={exhibition.venue} />
-        <p>© {exhibition.copyrightYear} {exhibition.venue}</p>
+        <img src={asset(exhibition.gallery.logo)} alt={exhibition.gallery.name} width="567" height="567" loading="lazy" />
+        <p>Gallery &amp; organiser<br />© {exhibition.copyrightYear} {exhibition.gallery.name}</p>
       </footer>
     </>
   );

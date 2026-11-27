@@ -35,7 +35,8 @@ h1, h2, p, dl, dd { margin: 0; }
 .site-header.info-active { background: #fff; }
 .nav-inner { width: min(var(--nav-width), calc(100% - var(--gutter) * 2)); height: 100%; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: inline-flex; align-items: center; min-height: 44px; }
-.brand img { width: 144px; height: auto; }
+/* The original square logo has transparent space above and below the drawing. */
+.brand img { width: 144px; height: 60px; object-fit: cover; }
 .info-toggle { width: 48px; height: 48px; display: grid; place-items: center; border: 0; background: transparent; color: var(--ink); cursor: pointer; border-radius: 50%; margin-right: -10px; }
 .info-toggle:hover { background: rgba(36,35,31,.045); }
 .toggle-icon { width: 28px; height: 28px; position: relative; display: block; }
@@ -69,18 +70,24 @@ h1, h2, p, dl, dd { margin: 0; }
 .artwork-meta .artwork-price { margin-top: 7px; }
 .artwork-price dd { font-weight: 700; }
 .contact { font-style: normal; font-size: 16px; line-height: 1.65; }
+.contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; margin-top: 24px; }
+.contact-label { font-size: 12px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.contact address { font-style: normal; }
+.contact-name { font-size: 18px; line-height: 1.45; }
+.contact-native-name { color: var(--muted); margin-top: 4px; }
 .gallery > .contact { margin-top: 54px; }
-.contact-links { display: flex; flex-wrap: wrap; column-gap: 22px; row-gap: 4px; margin-top: 9px; }
+.contact-links { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 9px; }
 .contact-links a { overflow-wrap: anywhere; text-decoration-thickness: 1px; }
 .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 25px 38px; border-top: 1px solid var(--rule); }
 .site-footer img { width: 111px; height: auto; }
-.site-footer p { font-size: 13px; color: var(--muted); text-align: right; }
+.site-footer p { font-size: 13px; line-height: 1.65; color: var(--muted); text-align: right; }
 .info-overlay { position: fixed; z-index: 15; inset: 0; background: #fff; overflow-y: auto; overscroll-behavior: contain; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity var(--transition), visibility 0s linear 280ms; }
 .info-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity var(--transition), visibility 0s; }
 .info-content { max-width: 720px; padding-top: calc(var(--nav-height) + 52px); padding-bottom: 72px; transform: translateY(9px); transition: transform var(--transition); }
 .info-overlay.is-open .info-content { transform: translateY(0); }
 .info-content h1 { font-weight: 400; font-size: clamp(39px, 6vw, 64px); letter-spacing: -.045em; line-height: 1.05; }
 .info-dates { font-size: clamp(17px, 2.2vw, 21px); margin-top: 13px; color: var(--muted); }
+.info-artist { font-size: 18px; line-height: 1.5; margin-top: 10px; }
 .bilingual-copy { display: grid; gap: 38px; margin-top: 50px; }
 .language-section { display: grid; grid-template-columns: 65px minmax(0,1fr); column-gap: 15px; align-items: baseline; font-size: 18px; line-height: 1.7; }
 .language-label { font-size: 14px; color: var(--muted); white-space: nowrap; }
@@ -92,7 +99,7 @@ h1, h2, p, dl, dd { margin: 0; }
 }
 @media (max-width: 620px) {
   :root { --nav-height: 66px; }
-  .brand img { width: 130px; }
+  .brand img { width: 130px; height: 54px; }
   .gallery { padding-top: calc(var(--nav-height) + 30px); padding-bottom: 38px; }
   .gallery-heading { margin-bottom: 29px; }
   .artwork { grid-template-columns: minmax(0,1fr); gap: 20px; padding-block: 28px; }
@@ -100,6 +107,7 @@ h1, h2, p, dl, dd { margin: 0; }
   .artwork-meta { margin-top: 17px; gap: 7px; }
   .artwork-meta > div { grid-template-columns: 90px minmax(0,1fr); }
   .gallery > .contact { margin-top: 36px; }
+  .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .info-content { padding-top: calc(var(--nav-height) + 34px); padding-bottom: 44px; }
   .bilingual-copy { margin-top: 35px; gap: 28px; }
   .language-section { grid-template-columns: 40px minmax(0,1fr); gap: 10px; font-size: 16px; line-height: 1.65; }

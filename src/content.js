@@ -2,6 +2,7 @@
 // Vite also inserts the title and description into index.html before React runs.
 const title = 'Loose Ends';
 const dates = '27 November 2026';
+const location = 'Athens, Greece';
 const artist = {
   name: 'Stelios Chatzivasileiou',
   nameGR: 'Στέλιος Χατζηβασιλείου',
@@ -18,8 +19,8 @@ const gallery = {
 export const exhibition = {
   title,
   dates,
-  location: 'Athens',
-  seoDescription: `${title}, ${dates}, Athens. Paintings and collages by ${artist.name} at ${gallery.name}, exploring space and perception. Browse the works and prices.`,
+  location,
+  seoDescription: `${title}, ${dates}, ${location}. Paintings and collages by ${artist.name} at ${gallery.name}, exploring space and perception. Browse the works and prices.`,
   logo: 'logos/loose-ends-logo.png',
   artist,
   gallery,
@@ -34,7 +35,6 @@ export const exhibition = {
     "Starting from the form of an abstract place, one or more objects are placed within it, defined by the value of their color and texture. The composition is completed by a line that is there to break the abstract form and bring the viewer to a new, more familiar place. It is this interaction that is studied in the works in acrylic and dry pastel, along with the works' relationship with the viewer.",
     'The name of the exhibition stems from a need to merge into one body of work the individual practices toward which this study has been directed, among them painting, digital art, printmaking, woodworking and collage. Selected collages are also included in the exhibition. In the collages on show, works in marker and pen are framed by different textures and scraps of older drawings that "failed," giving them a second life within the practice itself.',
   ],
-  contactIntro: 'For enquiries about the works or to arrange a visit, please get in touch.',
 };
 
 // CSV order and Identification names are preserved. Photos are matched by filename.

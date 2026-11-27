@@ -1,6 +1,6 @@
 # Loose Ends
 
-A minimal, single-page React catalogue and price list for **Loose Ends** by **Stelios Chatzivasileiou**, dated **27 November 2026**, in Athens. **Imposter Studio** is the gallery and organiser.
+A minimal, single-page React catalogue and price list for **Loose Ends** by **Stelios Chatzivasileiou**, dated **27 November 2026**, in **Athens, Greece**. **Imposter Studio** is the gallery and organiser.
 
 The catalogue contains 13 works from the supplied price-list CSV. Each photo was matched by its filename to the CSV's **Identification** column, which is also used as the temporary artwork title. Mediums, dimensions, prices and catalogue order follow the CSV. Artwork years were not supplied and are omitted. Greek and English exhibition descriptions and artist/gallery contact details come from the supplied PDFs.
 
@@ -35,15 +35,16 @@ The committed `package-lock.json` keeps dependency versions consistent between l
 | `index.html` / `vite.config.js` | HTML shell and static title/description metadata injection |
 | `package.json` | Project name, commands, dependencies |
 
-For an artwork, edit the object in `artworks` in `src/content.js`. Give it a unique `id`, a path relative to `public/`, descriptive `alt` text, title, medium and dimensions. `width` and `height` are the photo's pixel dimensions, separate from the physical artwork dimensions. Subtitle, price and year are optional; leave them out or set them to `''` to hide those lines. Prices are display strings including the currency symbol.
+For an artwork, edit the object in `artworks` in `src/content.js`. Give it a unique `id`, a path relative to `public/`, descriptive `alt` text, title, medium and dimensions. `width` and `height` are the photo's pixel dimensions, separate from the physical artwork dimensions. Subtitle, price and year are optional; leave them out or set them to `''` to hide those lines. Source prices include the euro symbol and source dimensions include `cm`, as imported from the CSV. The catalogue displays prices as bare numbers and places the unit in the label **Dimensions (cm)**.
 
-The artist and gallery contact blocks are reused in both views. The exhibition title and date feed the search metadata; the date is fixed, not a changing visitor date. The exhibition descriptions preserve the supplied text and should be edited separately when the exhibition copy changes. Replace the PNG logos when changing the exhibition or organiser. The header displays the original square logo with its transparent vertical padding outside the visible image box. Interface labels such as “List of works”, “Medium” and “Price” are in `src/App.jsx`.
+Both views share an exhibition heading, an artist-only **Get in touch** section and a footer. The footer contains the copyright at the left, a small Imposter Studio logo in the center, and the studio's contact email at the right. The exhibition title, date and location feed the search metadata; the date is fixed, not a changing visitor date. The exhibition descriptions preserve the supplied text and should be edited separately when the exhibition copy changes. Replace the PNG logos when changing the exhibition or organiser. The header displays the original square logo with its transparent vertical padding outside the visible image box. Interface labels such as “Get in touch”, “Medium” and “Price” are in `src/App.jsx`.
 
 ## Design and behavior
 
-- Fixed white navbar with 86% opacity and subtle backdrop blur. Logo scrolls to the top, and closes the information overlay if it is open.
+- Fixed white navbar with 86% opacity and subtle backdrop blur; 56px high on desktop and 52px on mobile. The smaller exhibition logo remains larger than the information icon. Logo scrolls to the top, and closes the information overlay if it is open.
 - The information button morphs from a circled i into an X. The full-screen panel fades in and scrolls independently; closing restores the gallery scroll position. Escape also closes the panel. Keyboard focus is confined to the open panel and navbar; reduced motion is supported.
-- Desktop content is limited to 860px; information text to 720px. Tablets retain a two-column catalogue with tighter spacing. At 620px and below, each artwork's image sits above its details. Images retain their intrinsic proportions in a neutral mat.
+- Both views use the same heading position and typography: exhibition title, artist subtitle, then date and location. Desktop content is limited to 860px; bilingual information text to 720px.
+- Artwork images have no surrounding background or divider lines and are centered vertically against their details on desktop. Tablets retain a two-column catalogue with tighter spacing. At 620px and below, each image sits above its details. Images retain their intrinsic proportions, with generous space between entries and equal gaps between metadata rows.
 - The GR and EN labels use a shared fixed-width grid column, keeping every line of both language paragraphs aligned.
 - Uses Georgia with system serif fallbacks; no fonts are downloaded. The price row is optional.
 - The Vite HTML transform injects the exhibition name and description into the delivered HTML, including Open Graph title and description. Search engines may rewrite snippets; metadata does not guarantee a particular search result. This is a client-rendered SPA; consider prerendering if fully static body content is important for SEO.

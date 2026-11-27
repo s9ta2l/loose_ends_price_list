@@ -3,30 +3,45 @@ import { exhibition, artworks } from './content.js';
 
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
-function Contact() {
-  const contacts = [
-    { label: 'Artist', ...exhibition.artist },
-    { label: 'Gallery & organiser', ...exhibition.gallery },
-  ];
+function ExhibitionHeading({ titleId }) {
   return (
-    <section className="contact" aria-label="Contact details">
-      <p>{exhibition.contactIntro}</p>
-      <div className="contact-grid">
-        {contacts.map(({ label, name, nameGR, email, phone, phoneHref }) => (
-          <div className="contact-person" key={label}>
-            <h2 className="contact-label">{label}</h2>
-            <address>
-              <p className="contact-name">{name}</p>
-              {nameGR && <p className="contact-native-name" lang="el">{nameGR}</p>}
-              <div className="contact-links">
-                <a href={`mailto:${email}`}>{email}</a>
-                {phone && <a href={`tel:${phoneHref}`}>{phone}</a>}
-              </div>
-            </address>
-          </div>
-        ))}
-      </div>
+    <div className="exhibition-heading">
+      <h1 id={titleId}>{exhibition.title}</h1>
+      <p className="exhibition-subtitle">{exhibition.artist.name}</p>
+      <p className="exhibition-dates">{exhibition.dates} · {exhibition.location}</p>
+    </div>
+  );
+}
+
+function Contact() {
+  const { name, nameGR, email, phone, phoneHref } = exhibition.artist;
+  return (
+    <section className="contact" aria-label="Get in touch">
+      <h2>Get in touch</h2>
+      <address>
+        <p className="contact-name">{name}</p>
+        {nameGR && <p className="contact-native-name" lang="el">{nameGR}</p>}
+        <div className="contact-links">
+          <a href={`mailto:${email}`}>{email}</a>
+          {phone && <a href={`tel:${phoneHref}`}>{phone}</a>}
+        </div>
+      </address>
     </section>
+  );
+}
+
+function SiteFooter({ inert = false }) {
+  const { gallery, copyrightYear } = exhibition;
+  const [mailbox, domain] = gallery.email.split('@');
+  return (
+    <footer className="site-footer content-width" inert={inert}>
+      <p className="footer-copyright">© {copyrightYear} {gallery.name}</p>
+      <img src={asset(gallery.logo)} alt={gallery.name} width="567" height="567" loading="lazy" />
+      <address className="footer-contact">
+        <p>Contact {gallery.name}</p>
+        <a href={`mailto:${gallery.email}`}>{mailbox}<wbr />@{domain}</a>
+      </address>
+    </footer>
   );
 }
 
@@ -41,9 +56,9 @@ function Artwork({ work, index }) {
         {work.subtitle && <p className="artwork-subtitle">{work.subtitle}</p>}
         <dl className="artwork-meta">
           <div><dt>Medium</dt><dd>{work.medium}</dd></div>
-          <div><dt>Dimensions</dt><dd>{work.dimensions}</dd></div>
+          <div><dt>Dimensions (cm)</dt><dd>{work.dimensions.replace(/\s*cm\s*$/i, '')}</dd></div>
           {work.year && <div><dt>Year</dt><dd>{work.year}</dd></div>}
-          {work.price && <div className="artwork-price"><dt>Price</dt><dd>{work.price}</dd></div>}
+          {work.price && <div className="artwork-price"><dt>Price</dt><dd>{work.price.replace('€', '').trim()}</dd></div>}
         </dl>
       </div>
     </article>
@@ -64,16 +79,15 @@ function LanguageSection({ label, lang, paragraphs }) {
 function InfoPanel({ open, panelRef }) {
   return (
     <div id="exhibition-info" className={`info-overlay${open ? ' is-open' : ''}`} ref={panelRef} inert={!open} aria-hidden={!open}>
-      <div className="content-width info-content">
-        <h1 id="info-title">{exhibition.title}</h1>
-        <p className="info-dates">{exhibition.dates} · {exhibition.location}</p>
-        <p className="info-artist">{exhibition.artist.name}</p>
+      <div className="content-width page-content info-content">
+        <ExhibitionHeading titleId="info-title" />
         <div className="bilingual-copy">
           <LanguageSection label="GR" lang="el" paragraphs={exhibition.descriptionGR} />
           <LanguageSection label="EN" lang="en" paragraphs={exhibition.descriptionEN} />
         </div>
         <Contact />
       </div>
+      <SiteFooter />
     </div>
   );
 }
@@ -153,17 +167,14 @@ export default function App() {
         </header>
         <InfoPanel open={open} panelRef={panelRef} />
       </div>
-      <main id="top" className="content-width gallery" inert={open}>
-        <div className="gallery-heading"><h1>{exhibition.title}</h1><p>{exhibition.artist.name} — List of works</p></div>
+      <main id="top" className="content-width page-content gallery" inert={open}>
+        <ExhibitionHeading />
         <div className="artwork-list">
           {artworks.map((work, index) => <Artwork key={work.id} work={work} index={index} />)}
         </div>
         <Contact />
       </main>
-      <footer className="site-footer content-width" inert={open}>
-        <img src={asset(exhibition.gallery.logo)} alt={exhibition.gallery.name} width="567" height="567" loading="lazy" />
-        <p>Gallery &amp; organiser<br />© {exhibition.copyrightYear} {exhibition.gallery.name}</p>
-      </footer>
+      <SiteFooter inert={open} />
     </>
   );
 }

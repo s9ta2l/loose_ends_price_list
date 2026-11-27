@@ -85,9 +85,9 @@ h1, h2, p, dl, dd { margin: 0; }
 .page-content > .contact { margin-top: 128px; }
 .contact-links { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 10px; }
 .contact-links a { overflow-wrap: anywhere; text-decoration-thickness: 1px; }
-.site-footer { display: grid; grid-template-columns: minmax(0, 1fr) 68px; align-items: center; gap: 24px; padding-block: 24px 40px; font-size: 13px; line-height: 1.65; color: var(--muted); }
+.site-footer { display: grid; grid-template-columns: minmax(0, 1fr) 68px minmax(0, 1fr); align-items: center; gap: 24px; padding-block: 24px 40px; font-size: 13px; line-height: 1.65; color: var(--muted); }
 .site-footer img { width: 68px; height: auto; justify-self: center; }
-.footer-logo { display: block; justify-self: end; border-radius: 50%; }
+.footer-logo { display: block; justify-self: center; border-radius: 50%; }
 .footer-copyright { text-align: left; }
 .info-overlay { position: fixed; z-index: 15; inset: 0; background: #fff; overflow-y: auto; scrollbar-gutter: stable; overscroll-behavior: contain; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity var(--transition), visibility 0s linear 280ms; }
 .info-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity var(--transition), visibility 0s; }
@@ -104,6 +104,8 @@ h1, h2, p, dl, dd { margin: 0; }
 @media (max-width: 760px) {
   .artwork { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .artwork-image { width: min(220px, 100%); justify-self: start; justify-items: start; }
+  .site-footer { grid-template-columns: minmax(0, 1fr) 68px; }
+  .footer-logo { justify-self: end; }
   .contact-columns { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .studio-contact { text-align: left; }
   .studio-contact .contact-links { align-items: flex-start; }

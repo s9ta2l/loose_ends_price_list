@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Archivo';
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 125%;
+  font-display: swap;
+  src: url('/fonts/archivo-expanded-black-italic-latin.woff2') format('woff2');
+}
+
 :root {
   font-family: Georgia, 'Times New Roman', serif;
   color: #24231f;
@@ -51,7 +60,7 @@ h1, h2, p, dl, dd { margin: 0; }
 .info-toggle.is-open .icon-cross { opacity: 1; transform: translate(-50%,-50%) rotate(-45deg) scaleY(1); }
 .page-content { padding-top: calc(var(--nav-height) + 30px); padding-bottom: 56px; }
 .exhibition-heading { margin-bottom: 48px; }
-.exhibition-heading h1 { font-weight: 400; font-size: clamp(39px, 6vw, 64px); letter-spacing: -.045em; line-height: 1.05; }
+.exhibition-heading h1 { font-family: 'Archivo', Arial, sans-serif; font-style: italic; font-weight: 900; font-stretch: 125%; font-size: clamp(39px, 6vw, 64px); letter-spacing: -.02em; line-height: 1.05; white-space: nowrap; }
 .exhibition-subtitle { font-size: 18px; line-height: 1.5; margin-top: 13px; }
 .exhibition-dates { font-size: clamp(17px, 2.2vw, 21px); line-height: 1.5; margin-top: 8px; color: var(--muted); }
 .artwork-list { display: grid; gap: 144px; }
@@ -109,6 +118,7 @@ h1, h2, p, dl, dd { margin: 0; }
   .site-footer img { width: 48px; }
 }
 @media (max-width: 480px) {
+  .exhibition-heading h1 { font-size: clamp(28px, 10vw, 39px); }
   .artwork-meta { font-size: clamp(12px, 4vw, 15px); }
   .artwork-meta > div { grid-template-columns: minmax(0, 1fr); row-gap: 4px; }
 }

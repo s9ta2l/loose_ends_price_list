@@ -96,7 +96,7 @@ h1, h2, p, dl, dd { margin: 0; }
 .language-toggle button { display: grid; place-items: center; min-height: 40px; padding: 0; border: 0; border-radius: 22px; background: transparent; color: var(--muted); font: inherit; font-size: 12px; letter-spacing: .05em; cursor: pointer; transition: background var(--transition), color var(--transition); }
 .language-toggle button:hover { color: var(--ink); }
 .language-toggle button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(36,35,31,.08); }
-.language-copy { min-width: 0; font-size: 18px; line-height: 1.7; }
+.language-copy { min-width: 0; font-size: 18px; line-height: 1.7; text-align: justify; hyphens: auto; }
 .language-copy p + p { margin-top: 16px; }
 @media (max-width: 850px) {
   .artwork { gap: 36px; grid-template-columns: 180px minmax(0, 1fr); }
